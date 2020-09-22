@@ -12,17 +12,20 @@ buildscript {
 
 plugins {
     id 'org.springframework.boot' version '2.3.3.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'   
     id 'java'
     id 'war'
 }
+
+apply plugin: 'java'
+apply plugin: 'application'
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 repositories {
-    mavenCentral()
+    jcenter()
 }
 
 dependencies {
@@ -37,4 +40,15 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+mainClassName = 'ccom.example.test_prometheus_grafana.TestPrometheusGrafanaApplication'
+
+jar {
+    manifest {
+        attributes(
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+                'Main-Class': "$mainClassName"
+        )
+    }
 }
